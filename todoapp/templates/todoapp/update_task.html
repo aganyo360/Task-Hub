@@ -1,0 +1,18 @@
+{% include "header.html"%}
+    <h3 class="text-center py-4">Update Task</h3>
+  
+<form action="{% url 'update_task' task.id%}" class="" method="post" class="p-5">
+     {%csrf_token%}
+    <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" class="form-control" id="title"name="title" value="{{task.title}}">
+        
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <input type="text" class="form-control" id="description" name="description" value="{{task.description}}">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add</button>
+</form>
+<a href="{% url 'task_details' task.id%}">Cancel</a>
