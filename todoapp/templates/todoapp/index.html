@@ -1,12 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
 <body>
-    Hello world
-    <a href="{% url 'task_list' %}">View Tasks</a>
+    {% include "header.html" %}
+  
+   
+
+    <table class="table table-striped container">
+    <tr class="table-success">
+        <th>Number</th>
+        <th>Task Title</th>
+        <th>Task Descrprition</th>
+        <th>Task Status</th>
+    </tr>
+    {%for t in task%}
+    <tr><td>{{t.id}}</td>
+        <td>{{t.title}}</td>
+        <td>{{t.description}}</td>
+        {%if t.completed%}
+        <td>Done</td>
+        {%else%}
+        <td>Incompleted</td>
+        {%endif%}
+    </tr>
+
+    {%endfor%}
+    
+    </table>
 </body>
+
 </html>
