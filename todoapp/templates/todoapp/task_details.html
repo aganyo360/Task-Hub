@@ -1,18 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>{{task.title}}</h1>
-    <h3>{{task.description}}</h3>
-    {%if task.completed%}
-    <p>Completion status: Done</p>
-    {%else%}
-    <p>Completion status: Not Completed<p></p>
-    {%endif%}
-    <a href="{%url 'delete_task' task.id%}">Delete</a>
-</body>
-</html>
+{% include "header.html"%}
+
+
+<!-- <h1>{{task.title}}</h1>
+<h3>{{task.description}}</h3>
+{%if task.completed%}
+<p>Completion status: Done</p>
+{%else%}
+<p>Completion status: Not Completed
+<p></p>
+<a href="{%url 'complete_task' task.id %}">Mark as Done</a>
+{%endif%} -->
+
+<div class="card container py-3 my-4" >
+    <div class="card-body p-2">
+        <h3 class="card-title p-2">{{task.title}}</h3>
+        <p class="card-text p-2">{{task.description}}</p>
+        {%if task.completed%}
+
+        <h6 class="card-subtitle mb-2 text-body-secondary p-2 ">Completion status: <span class="p-1 text-success">Done</span></h6>
+        {%else%}
+        <h6 class="card-subtitle mb-2 text-body-secondary p-1">Completion status: Not Completed</h6>
+            <a href="{%url 'complete_task' task.id %}" class="card-link text-decoration-none bg-success text-white p-1" style="width: 4rem;">Mark as Done</a>
+            {%endif%}
+            <a href="{%url 'delete_task' task.id%}" class="card-link text-decoration-none bg-danger text-white p-1">Delete</a>
+            <a href="{%url 'update_task' task.id%}" class="card-link text-decoration-none bg-warning text-white p-1">Update</a>
+            <a href="{%url 'task_list' %}" class="card-link text-decoration-none"> << Back</a>
+
+    </div>
+</div>
