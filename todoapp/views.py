@@ -8,8 +8,22 @@ def index(req):
 
 def task_list(req):
     task = ToDoTask.objects.all()
-    task_count = len(task.values())
-    return render(req,"todoapp/list_task.html", {'task':task, 'task_count':task_count})
+
+    # search task
+    search_text = req.GET.get('search', '')
+    if search_text:
+        task= task.filter(title__icontains=search_text)
+
+    # filtering
+    status = req.GET.get('status', '')
+    if status == "completed":
+        task=task.filter(completed=True)
+    elif status == "pending":
+        task = task.filter(completed=False)
+
+    task_count = task.count()
+    return render(req,"todoapp/list_task.html", 
+                  {'task':task, 'task_count':task_count})
 
 def add_task(req):
     if req.method =="POST":
