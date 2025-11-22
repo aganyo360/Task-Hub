@@ -1,10 +1,65 @@
-{% include 'header.html'%}
-    <h2 class="p-3 text-center">Total number of tasks: {{task_count}}</h2>
-    <button class="btn btn-success w-3  "><a href="{% url 'add_task' %}" class="text-white fw-bold text-decoration-none">Add Task</a></button>
-    <div class="container ">
-        {%for t in task%}
-        <h2>{{t.title}}</h2>
-        <a href="{% url 'task_details' t.id %}">See more</a>
-        {% endfor%}
+{% include 'header.html' %}
+
+<div class="container py-3">
+
+    <h2 class="text-center mb-4">Tasks (Total: {{ task_count }})</h2>
+
+    <!-- SEARCH & FILTER FORM -->
+    <form method="GET" class="d-flex gap-2 mb-4">
+
+        <!-- Search input -->
+        <input 
+            type="text" 
+            name="search" 
+            placeholder="Search tasks..." 
+            class="form-control"
+            value="{{ request.GET.search }}"
+        >
+
+        <!-- Filter dropdown -->
+        <select name="status" class="form-control">
+            <option value="">All</option>
+            <option value="completed" {% if request.GET.status == "completed" %}selected{% endif %}>Completed</option>
+            <option value="pending" {% if request.GET.status == "pending" %}selected{% endif %}>Pending</option>
+        </select>
+
+        <button class="btn btn-primary">Apply</button>
+    </form>
+
+    <!-- Add task button -->
+    <div class="mb-3">
+        <a href="{% url 'add_task' %}" class="btn btn-success">+ Add Task</a>
     </div>
-    
+
+    <!-- TASK LIST -->
+    {% if task %}
+        <div class="list-group">
+            {% for t in task %}
+                <div class="list-group-item mb-2 p-3 border rounded">
+
+                    <h4>{{ t.title }}</h4>
+                    <p>{{ t.description }}</p>
+
+                    <!-- Completion status -->
+                    {% if t.completed %}
+                        <span class="badge bg-success">Completed</span>
+                    {% else %}
+                        <span class="badge bg-warning text-dark">Pending</span>
+                        <a href="{% url 'complete_task' t.id %}" class="btn btn-sm btn-success ms-2">Mark as Done</a>
+                    {% endif %}
+
+                    <!-- Action buttons -->
+                    <div class="mt-2">
+                        <a href="{% url 'update_task' t.id %}" class="btn btn-sm btn-primary">Update</a>
+                        <a href="{% url 'delete_task' t.id %}" class="btn btn-sm btn-danger">Delete</a>
+                        <a href="{% url 'task_details' t.id %}" class="btn btn-sm btn-secondary">Details</a>
+                    </div>
+
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center p-4">No tasks found.</p>
+    {% endif %}
+
+</div>
